@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/cloudfoundry/mcf-vmc-plugin.png)](https://travis-ci.org/cloudfoundry/mcf-vmc-plugin)
+[![Build Status](https://travis-ci.org/cloudfoundry/micro-cf-plugin.png)](https://travis-ci.org/cloudfoundry/micro-cf-plugin)
 
 ## Micro Cloud Foundry
 ### Info
@@ -6,7 +6,7 @@ This plugin allows you to manage your Micro Cloud Foundry VM.
 
 ### Installation
 ```
-gem install mcf-vmc-plugin
+gem install micro-cf-plugin
 ```
 
 ### Usage
