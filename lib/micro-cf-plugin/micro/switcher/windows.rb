@@ -1,8 +1,8 @@
-module VMCMicro::Switcher
+module CFMicro::Switcher
 
   class Windows < Base
     def version
-      VMCMicro.run_command("cmd", "/c ver").to_s.scan(/\d+\.\d+/).first.to_f
+      CFMicro.run_command("cmd", "/c ver").to_s.scan(/\d+\.\d+/).first.to_f
     end
 
     def adminrun(command, args=nil)
@@ -13,7 +13,7 @@ module VMCMicro::Switcher
       else
         # on older version this will try to run the command, and if you don't have
         # admin privilges it will tell you so and exit
-        VMCMicro.run_command(command, args)
+        CFMicro.run_command(command, args)
       end
     end
 

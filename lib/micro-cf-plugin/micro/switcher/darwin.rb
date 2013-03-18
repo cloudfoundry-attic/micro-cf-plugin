@@ -1,10 +1,10 @@
-require "mcf-vmc-plugin/errors"
+require "micro-cf-plugin/errors"
 
-module VMCMicro::Switcher
+module CFMicro::Switcher
 
   class Darwin < Base
     def adminrun(command)
-      VMCMicro.run_command("osascript", "-e 'do shell script \"#{command}\" with administrator privileges'")
+      CFMicro.run_command("osascript", "-e 'do shell script \"#{command}\" with administrator privileges'")
     end
 
     def set_nameserver(domain, ip)
@@ -13,7 +13,7 @@ module VMCMicro::Switcher
     end
 
     def unset_nameserver(domain, ip)
-      raise VMCMicro::MCFError, "domain missing" unless domain
+      raise CFMicro::MCFError, "domain missing" unless domain
       adminrun("rm -f /etc/resolver/#{domain}")
     end
   end

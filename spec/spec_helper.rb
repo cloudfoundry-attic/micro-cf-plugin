@@ -1,7 +1,7 @@
 SPEC_ROOT = File.dirname(__FILE__).freeze
 
 require "rspec"
-require "vmc"
+require "cf"
 require "cfoundry"
 require "cfoundry/test_support"
 

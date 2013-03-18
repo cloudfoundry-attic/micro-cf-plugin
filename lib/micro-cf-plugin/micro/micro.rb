@@ -1,7 +1,7 @@
 require 'find'
-require "mcf-vmc-plugin/errors"
+require "micro-cf-plugin/errors"
 
-module VMCMicro
+module CFMicro
   def config_file(file)
     File.expand_path("../../../../config/#{file}", __FILE__)
   end
@@ -43,7 +43,7 @@ module VMCMicro
       if block_given?
         yield
       else
-        raise VMCMicro::MCFError, "failed to execute #{command} #{args}:\n#{result}"
+        raise CFMicro::MCFError, "failed to execute #{command} #{args}:\n#{result}"
       end
     end
   end

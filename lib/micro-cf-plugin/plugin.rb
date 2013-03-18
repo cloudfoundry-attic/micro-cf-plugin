@@ -1,21 +1,21 @@
 require "yaml"
 require "multi_json"
-require "vmc/cli"
+require "cf/cli"
 
-require "mcf-vmc-plugin/help"
-require "mcf-vmc-plugin/micro/micro"
-require "mcf-vmc-plugin/micro/vmrun"
-require "mcf-vmc-plugin/micro/switcher/base"
-require "mcf-vmc-plugin/micro/switcher/darwin"
-require "mcf-vmc-plugin/micro/switcher/linux"
-require "mcf-vmc-plugin/micro/switcher/windows"
+require "micro-cf-plugin/help"
+require "micro-cf-plugin/micro/micro"
+require "micro-cf-plugin/micro/vmrun"
+require "micro-cf-plugin/micro/switcher/base"
+require "micro-cf-plugin/micro/switcher/darwin"
+require "micro-cf-plugin/micro/switcher/linux"
+require "micro-cf-plugin/micro/switcher/windows"
 
-module VMCMicro
-  class McfCommand < VMC::CLI
-    MICRO_FILE = '~/.vmc/micro.yml'
+module CFMicro
+  class McfCommand < CF::CLI
+    MICRO_FILE = '~/.cf/micro.yml'
 
     desc "Display Micro Cloud Foundry VM status"
-    group :mcf
+    group :micro
     input :vmx, :argument => :required,
       :desc => "Path to micro.vmx"
     input :password, :argument => :optional,
@@ -31,7 +31,7 @@ module VMCMicro
     end
 
     desc "Micro Cloud Foundry offline mode"
-    group :mcf
+    group :micro
     input :vmx, :argument => :required,
       :desc => "Path to micro.vmx"
     input :password, :argument => :optional,
@@ -57,7 +57,7 @@ module VMCMicro
     end
 
     desc "Micro Cloud Foundry online mode"
-    group :mcf
+    group :micro
     input :vmx, :argument => :required,
       :desc => "Path to micro.vmx"
     input :password, :argument => :optional,
@@ -96,20 +96,20 @@ module VMCMicro
       end
 
       unless runner.ready?
-        fail "MCF VM initial setup needs to be completed before using 'vmc micro'"
+        fail "MCF VM initial setup needs to be completed before using 'cf micro'"
       end
     end
 
     def switcher(config)
       case McfCommand.platform
       when :darwin
-        VMCMicro::Switcher::Darwin.new(config)
+        CFMicro::Switcher::Darwin.new(config)
       when :linux
-        VMCMicro::Switcher::Linux.new(config)
+        CFMicro::Switcher::Linux.new(config)
       when :windows
-        VMCMicro::Switcher::Windows.new(config)
+        CFMicro::Switcher::Windows.new(config)
       when :dummy # for testing only
-        VMCMicro::Switcher::Dummy.new(config)
+        CFMicro::Switcher::Dummy.new(config)
       else
         fail "unsupported platform: #{McfCommand.platform}"
       end
@@ -131,7 +131,7 @@ module VMCMicro
       end
 
       override(conf, :vmrun, true) do
-        VMCMicro::VMrun.locate(McfCommand.platform)
+        CFMicro::VMrun.locate(McfCommand.platform)
       end
 
       override(conf, :password) do
@@ -159,16 +159,16 @@ module VMCMicro
     def override(config, option, escape=false, &blk)
       # override if given on the command line
       if opt = input[option]
-        opt = VMCMicro.escape_path(opt) if escape
+        opt = CFMicro.escape_path(opt) if escape
         config[option] = opt
       end
       config[option] = yield unless config[option]
     end
 
     def locate_vmx(platform)
-      paths = YAML.load_file(VMCMicro.config_file('paths.yml'))
+      paths = YAML.load_file(CFMicro.config_file('paths.yml'))
       vmx_paths = paths[platform.to_s]['vmx']
-      vmx = VMCMicro.locate_file('micro.vmx', 'micro', vmx_paths)
+      vmx = CFMicro.locate_file('micro.vmx', 'micro', vmx_paths)
       fail "Unable to locate micro.vmx, please supply --vmx option" unless vmx
       vmx
     end

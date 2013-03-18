@@ -1,6 +1,6 @@
-require "mcf-vmc-plugin/errors"
+require "micro-cf-plugin/errors"
 
-module VMCMicro
+module CFMicro
   class VMrun
     attr_reader :vmx, :vmrun
 
@@ -41,7 +41,7 @@ module VMCMicro
 
     def domain
       # switch to Dir.mktmpdir
-      state_config = VMCMicro.escape_path(File.join(@temp_dir, 'state.yml'))
+      state_config = CFMicro.escape_path(File.join(@temp_dir, 'state.yml'))
       run('CopyFileFromGuestToHost', "/var/vcap/bosh/state.yml #{state_config}")
       bosh_config = YAML.load_file(state_config)
       bosh_config['properties']['domain']
@@ -49,8 +49,8 @@ module VMCMicro
 
     def ip
       # switch to Dir.mktmpdir
-      path = VMCMicro.escape_path(VMCMicro.config_file('refresh_ip.rb'))
-      ip_file = VMCMicro.escape_path(File.join(@temp_dir, 'ip.txt'))
+      path = CFMicro.escape_path(CFMicro.config_file('refresh_ip.rb'))
+      ip_file = CFMicro.escape_path(File.join(@temp_dir, 'ip.txt'))
       run('CopyFileFromHostToGuest', "#{path} /tmp/refresh_ip.rb")
       run('runProgramInGuest', '/tmp/refresh_ip.rb')
       run('CopyFileFromGuestToHost', "/tmp/ip.txt #{ip_file}")
@@ -60,7 +60,7 @@ module VMCMicro
     def list
       vms = run("list")
       vms.delete_if { |line| line =~ /^Total/ }
-      vms.map { |line| VMCMicro.escape_path(File.expand_path(line)) }
+      vms.map { |line| CFMicro.escape_path(File.expand_path(line)) }
     end
 
     def offline?
@@ -74,12 +74,12 @@ module VMCMicro
       elsif $?.exitstatus == 0
         return true
       else
-        raise VMCMicro::MCFError, "failed to execute vmrun:\n#{result}"
+        raise CFMicro::MCFError, "failed to execute vmrun:\n#{result}"
       end
     end
 
     def offline!
-      path = VMCMicro.escape_path(VMCMicro.config_file('offline.conf'))
+      path = CFMicro.escape_path(CFMicro.config_file('offline.conf'))
       run('CopyFileFromHostToGuest', "#{path} /etc/dnsmasq.d/offline.conf")
       run('runProgramInGuest', '/usr/bin/touch /var/vcap/micro/offline')
       run('runProgramInGuest',
@@ -107,7 +107,7 @@ module VMCMicro
       elsif $?.exitstatus == 1
         return false
       else
-        raise VMCMicro::MCFError, "failed to execute vmrun:\n#{result}"
+        raise CFMicro::MCFError, "failed to execute vmrun:\n#{result}"
       end
     end
 
@@ -134,7 +134,7 @@ module VMCMicro
       if command.include?('Guest')
         command = "-gu #{@user} -gp #{@password} #{command}"
       end
-      VMCMicro.run_command(@vmrun, "#{command} #{@vmx} #{args}")
+      CFMicro.run_command(@vmrun, "#{command} #{@vmx} #{args}")
     end
 
     def running?
@@ -163,10 +163,10 @@ module VMCMicro
     end
 
     def self.locate(platform)
-      paths = YAML.load_file(VMCMicro.config_file('paths.yml'))
+      paths = YAML.load_file(CFMicro.config_file('paths.yml'))
       vmrun_paths = paths[platform.to_s]['vmrun']
       vmrun_exe = @platform == :windows ? 'vmrun.exe' : 'vmrun'
-      vmrun = VMCMicro.locate_file(vmrun_exe, "VMware", vmrun_paths)
+      vmrun = CFMicro.locate_file(vmrun_exe, "VMware", vmrun_paths)
       err "Unable to locate vmrun, please supply --vmrun option" unless vmrun
       vmrun
     end

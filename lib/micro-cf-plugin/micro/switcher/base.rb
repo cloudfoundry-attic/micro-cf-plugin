@@ -1,12 +1,12 @@
-require "mcf-vmc-plugin/errors"
+require "micro-cf-plugin/errors"
 
-module VMCMicro::Switcher
+module CFMicro::Switcher
   class Base
 
     def initialize(config)
       @config = config
 
-      @vmrun = VMCMicro::VMrun.new(config)
+      @vmrun = CFMicro::VMrun.new(config)
     end
 
     #wrapper methods
@@ -62,7 +62,7 @@ module VMCMicro::Switcher
 
     def offline!
       if  @vmrun.offline?
-        raise VMCMicro::MCFError, "Micro Cloud Foundry VM already in offline mode"
+        raise CFMicro::MCFError, "Micro Cloud Foundry VM already in offline mode"
       else
         @vmrun.offline!
       end
@@ -72,7 +72,7 @@ module VMCMicro::Switcher
       if @vmrun.offline?
         @vmrun.online!
       else
-        raise VMCMirco::MCFError, "Micro Cloud Foundry already in online mode"
+        raise CFMirco::MCFError, "Micro Cloud Foundry already in online mode"
       end
     end
   end

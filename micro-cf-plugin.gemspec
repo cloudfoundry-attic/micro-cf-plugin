@@ -5,11 +5,11 @@
 #############
 
 $:.push File.expand_path("../lib", __FILE__)
-require "mcf-vmc-plugin/version"
+require "micro-cf-plugin/version"
 
 Gem::Specification.new do |s|
-  s.name        = "mcf-vmc-plugin"
-  s.version     = VMCMicro::VERSION.dup
+  s.name        = "micro-cf-plugin"
+  s.version     = CFMicro::VERSION.dup
   s.authors     = ["Alex Suraci"]
   s.email       = ["asuraci@vmware.com"]
   s.homepage    = "http://cloudfoundry.com/"
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
     Provides a fake tunnel command that tells you to install the real plugin.
   }
 
-  s.rubyforge_project = "mcf-vmc-plugin"
+  s.rubyforge_project = "micro-cf-plugin"
 
   s.files         = %w{Rakefile} + Dir.glob("{lib,config}/**/*")
   s.test_files    = Dir.glob("spec/**/*")

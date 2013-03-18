@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'mcf-vmc-plugin/plugin'
+require 'micro-cf-plugin/plugin'
 
-describe VMCMicro::McfCommand do
+describe CFMicro::McfCommand do
   describe 'micro_status' do
-    shared_examples 'mcf common inputs' do
+    shared_examples 'micro common inputs' do
       describe 'inputs' do
         subject { command.inputs }
         it { expect(subject[:vmx][:description]).to eq "Path to micro.vmx" }
@@ -25,13 +25,13 @@ describe VMCMicro::McfCommand do
     describe '#metadata' do
       let(:command) { Mothership.commands[:micro_status] }
 
-      include_examples 'mcf common inputs'
+      include_examples 'micro common inputs'
 
       describe 'command' do
         subject { command }
 
         its(:description) { should eq "Display Micro Cloud Foundry VM status" }
-        it { expect(Mothership::Help.group(:mcf)).to include(subject) }
+        it { expect(Mothership::Help.group(:micro)).to include(subject) }
       end
     end
   end
@@ -40,13 +40,13 @@ describe VMCMicro::McfCommand do
     describe 'metadata' do
       let(:command) { Mothership.commands[:micro_offline] }
 
-      include_examples 'mcf common inputs'
+      include_examples 'micro common inputs'
 
       describe 'command' do
         subject { command }
 
         its(:description) { should eq "Micro Cloud Foundry offline mode" }
-        it { expect(Mothership::Help.group(:mcf)).to include(subject) }
+        it { expect(Mothership::Help.group(:micro)).to include(subject) }
       end
     end
   end
@@ -55,13 +55,13 @@ describe VMCMicro::McfCommand do
     describe 'metadata' do
       let(:command) { Mothership.commands[:micro_online] }
 
-      include_examples 'mcf common inputs'
+      include_examples 'micro common inputs'
 
       describe 'command' do
         subject { command }
 
         its(:description) { should eq "Micro Cloud Foundry online mode" }
-        it { expect(Mothership::Help.group(:mcf)).to include(subject) }
+        it { expect(Mothership::Help.group(:micro)).to include(subject) }
       end
     end
   end

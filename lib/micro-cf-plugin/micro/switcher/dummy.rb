@@ -1,5 +1,5 @@
 # only used for testing
-module VMCMicro::Switcher
+module CFMicro::Switcher
 
   class Dummy < Base
     def adminrun(command)
