@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/cloudfoundry/micro-cf-plugin.png)](https://travis-ci.org/cloudfoundry/micro-cf-plugin)
+[![Gem Version](https://badge.fury.io/rb/micro-cf-plugin.png)](http://badge.fury.io/rb/micro-cf-plugin)
 
 ## Micro Cloud Foundry
 ### Info
