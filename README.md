@@ -6,8 +6,15 @@
 This plugin allows you to manage your Micro Cloud Foundry VM.
 
 ### Installation
+
+If you have installed CF via gem install, use:
 ```
 gem install micro-cf-plugin
+```
+
+If you have installed CF through bundler and the Gemfile, add the following to your Gemfile:
+```
+gem "micro-cf-plugin"
 ```
 
 ### Usage
