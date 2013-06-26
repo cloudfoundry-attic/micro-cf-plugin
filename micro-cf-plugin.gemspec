@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.test_files    = Dir.glob("spec/**/*")
   s.require_paths = ["lib"]
 
+  s.add_development_dependency "anchorman"
   s.add_development_dependency "rake", "~> 0.9"
   s.add_development_dependency "rspec", "~> 2.11"
   s.add_development_dependency "webmock", "~> 1.9"
